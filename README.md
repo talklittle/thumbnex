@@ -2,6 +2,17 @@
 
 Elixir library to generate thumbnails from images and videos.
 
+## Example
+
+```elixir
+Thumbnex.create_thumbnail("/path/to/input.mp4", "/path/to/output.jpg", max_width: 200, max_height: 200)
+```
+
+## Prerequisites
+
+* [ImageMagick](https://imagemagick.org)
+* [FFmpeg](https://ffmpeg.org)
+
 ## Installation
 
   1. Add `thumbnex` to your list of dependencies in `mix.exs`:
