@@ -1,0 +1,14 @@
+Cat picture from
+https://commons.wikimedia.org/wiki/File:Cat_public_domain_dedication_image_0012.jpg
+
+How to generate cat_fade_in.mp4:
+
+1. Create an all-black image file.
+2. ffmpeg -r 20 -loop 1 -i black.png -t 2 -s 320x240 black.mp4
+3. ffmpeg -r 20 -loop 1 -i Cat_public_domain_dedication_image_0012.jpg -t 2 -s 320x240 -vf "fade=in:5:8" cat.mp4
+4. Create combine.txt with contents:
+
+    file 'black.mp4'
+    file 'cat.mp4'
+
+5. ffmpeg -f concat -i combine.txt -c copy cat_fade_in.mp4

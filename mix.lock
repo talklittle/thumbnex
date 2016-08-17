@@ -1,0 +1,2 @@
+%{"ffmpex": {:hex, :ffmpex, "0.2.0", "1a0ce3a05f52ec21720aed308e334b11be684d7405b57733851dfbd379c60ef8", [:mix], []},
+  "mogrify": {:hex, :mogrify, "0.3.3", "deb77ae1af004b7277934beaade8883bb7dfbe1760d34470000dcf23dcc0e625", [:mix], []}}
