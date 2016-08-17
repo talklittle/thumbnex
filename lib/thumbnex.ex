@@ -23,6 +23,9 @@ defmodule Thumbnex do
   """
   @spec create_thumbnail(binary, binary, Keyword.t) :: :ok
   def create_thumbnail(input_path, output_path, opts \\ []) do
+    input_path = Path.expand(input_path)
+    output_path = Path.expand(output_path)
+
     max_width = number_opt(opts, :max_width, 1_000_000_000_000)
     max_height = number_opt(opts, :max_height, 1_000_000_000_000)
     format = Keyword.get(opts, :format, Path.extname(output_path))
