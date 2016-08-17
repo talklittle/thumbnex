@@ -17,7 +17,7 @@ defmodule Thumbnex do
   * `:height` - Height of the thumbnail. Defaults to input height.
   * `:max_width` - Maximum width of the thumbnail.
   * `:max_height` - Maximum height of the thumbnail.
-  * `:format` - Output format for the thumbnail. Defaults to infer from `output_path`.
+  * `:format` - Output format for the thumbnail. Defaults to `output_path` extension, or `"png"` if indeterminate.
   * `:time_offset` - Timestamp in seconds at which to take screenshot, for videos and GIFs.
     By default picks a time near the beginning, based on video duration.
   """
@@ -28,7 +28,7 @@ defmodule Thumbnex do
 
     max_width = number_opt(opts, :max_width, 1_000_000_000_000)
     max_height = number_opt(opts, :max_height, 1_000_000_000_000)
-    format = Keyword.get(opts, :format, Path.extname(output_path))
+    format = normalize_format(Keyword.get(opts, :format, image_format_from_path(output_path)))
 
     duration = duration(input_path)
     frame_time = number_opt(opts, :time_offset, frame_time(duration))
@@ -40,7 +40,7 @@ defmodule Thumbnex do
     desired_width = number_opt(opts, :width, width)
     desired_height = number_opt(opts, :height, height)
 
-    single_frame_path = ExtractFrame.single_frame(input_path, frame_time, output_ext: format)
+    single_frame_path = ExtractFrame.single_frame(input_path, frame_time, output_ext: ".#{format}")
 
     single_frame_path
     |> Mogrify.open
@@ -52,6 +52,17 @@ defmodule Thumbnex do
     File.rm! single_frame_path
 
     :ok
+  end
+
+  defp image_format_from_path(path) do
+    case Path.extname(path) do
+      "" -> "png"
+      extname -> String.slice(extname, 1..-1)  # remove "."
+    end
+  end
+
+  defp normalize_format(format) do
+    if String.starts_with?(format, "."), do: String.slice(format, 1..-1), else: format
   end
 
   defp duration(input_path) do
