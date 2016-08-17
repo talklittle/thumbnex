@@ -7,7 +7,9 @@ defmodule Thumbnex.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps()]
+     deps: deps(),
+     description: description(),
+     package: package()]
   end
 
   # Configuration for the OTP application
@@ -30,5 +32,18 @@ defmodule Thumbnex.Mixfile do
     [{:mogrify, "~> 0.3.3"},
      {:ffmpex, "~> 0.2.0"},
      {:ex_doc, ">= 0.0.0", only: :dev}]
+  end
+
+  defp description do
+    "Create thumbnails from images and video screenshots."
+  end
+
+  defp package do
+    [
+      files: ["lib", "mix.exs", "README*", "CHANGELOG*", "LICENSE*"],
+      maintainers: ["Andrew Shu"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/talklittle/thumbnex"}
+    ]
   end
 end
