@@ -32,6 +32,6 @@ defmodule ThumbnexTest do
 
   test "max_width and max_height" do
     :ok = Thumbnex.create_thumbnail(@fixture_video, @output_file, max_width: 160, max_height: 160)
-    assert %{width: "160", height: "120"} = @output_file |> Mogrify.open |> Mogrify.verbose
+    assert %{width: 160, height: 120} = @output_file |> Mogrify.open |> Mogrify.verbose
   end
 end
