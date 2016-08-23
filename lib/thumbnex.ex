@@ -33,10 +33,9 @@ defmodule Thumbnex do
     duration = duration(input_path)
     frame_time = number_opt(opts, :time_offset, frame_time(duration))
 
-    image = input_path |> Mogrify.open |> Mogrify.verbose
-
-    desired_width = number_opt(opts, :width, image.width)
-    desired_height = number_opt(opts, :height, image.height)
+    image = mogrify_verbose(input_path, duration)
+    desired_width = number_opt(opts, :width, (if image, do: image.width))
+    desired_height = number_opt(opts, :height, (if image, do: image.height))
 
     single_frame_path = ExtractFrame.single_frame(input_path, frame_time, output_ext: ".#{format}")
 
@@ -70,10 +69,17 @@ defmodule Thumbnex do
     end
   end
 
+  # N/A means not a video file. Assume it's an image file (including GIF).
+  defp mogrify_verbose(input_path, "N/A" = _duration) do
+    input_path |> Mogrify.open |> Mogrify.verbose
+  end
+  defp mogrify_verbose(_input_path, _duration), do: nil
+
   defp frame_time(short) when short < 4, do: 0
   defp frame_time(medium) when medium < 10, do: 1
   defp frame_time(long), do: 0.1 * long
 
+  defp resize_if_different(image, nil, nil), do: image
   defp resize_if_different(%{width: width, height: height} = image, desired_width, desired_height) do
     if width != desired_width or height != desired_height do
       image |> Mogrify.resize("#{desired_width}x#{desired_height}")
