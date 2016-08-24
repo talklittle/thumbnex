@@ -60,6 +60,7 @@ defmodule Thumbnex do
   * `:max_width` - Maximum width of the thumbnail.
   * `:max_height` - Maximum height of the thumbnail.
   * `:frame_count` - Number of frames to output. Default 4.
+  * `:fps` - Frames per second of output GIF. Default 1.
   * `:optimize` - Add mogrify options to reduce output size. Default true.
   """
   @spec animated_gif_thumbnail(binary, binary, Keyword.t) :: :ok
@@ -72,9 +73,10 @@ defmodule Thumbnex do
     desired_width = number_opt(opts, :width, nil)
     desired_height = number_opt(opts, :height, nil)
     frame_count = number_opt(opts, :frame_count, 4)
+    fps = number_opt(opts, :fps, 1)
     optimize = Keyword.get(opts, :optimize, true)
 
-    multi_frame_path = ExtractFrame.multiple_frames(input_path, frame_count, output_ext: ".gif")
+    multi_frame_path = ExtractFrame.multiple_frames(input_path, frame_count, fps, output_ext: ".gif")
 
     multi_frame_path
     |> Mogrify.open

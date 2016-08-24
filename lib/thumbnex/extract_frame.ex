@@ -34,7 +34,7 @@ defmodule Thumbnex.ExtractFrame do
 
   @doc """
   Extract multiple frames from the input file.
-  Specify the number of frames to output.
+  Specify the number of frames, and the frames per second, to output.
 
   Returns the path of the output file, a single file containing multiple frames.
 
@@ -43,7 +43,7 @@ defmodule Thumbnex.ExtractFrame do
   * `:output_path` - Where to store the resulting file. Defaults to temporary file.
   * `:output_ext` - File extension for output. Ignored if `:output_path` is set. Defaults to `".gif"`.
   """
-  def multiple_frames(file_path, frame_count, opts \\ []) do
+  def multiple_frames(file_path, frame_count, fps, opts \\ []) do
     output_ext = Keyword.get(opts, :output_ext, ".gif")
     output_path = Keyword.get(opts, :output_path, temporary_file(output_ext))
 
@@ -54,15 +54,15 @@ defmodule Thumbnex.ExtractFrame do
       |> add_input_file(file_path)
       |> add_output_file(output_path)
         |> add_file_option(option_vframes(frame_count))
-        |> add_file_option(option_vf(fps_string(frame_count, original_duration)))
+        |> add_file_option(option_vf(fps_string(frame_count, fps, original_duration)))
     {_, 0} = execute(command)
 
     output_path
   end
 
-  defp fps_string(_frame_count, :no_duration), do: "fps=1"
-  defp fps_string(frame_count, original_duration) do
-    "fps=#{frame_count}/#{original_duration}"
+  defp fps_string(_frame_count, fps, :no_duration), do: "fps=#{fps}"
+  defp fps_string(frame_count, fps, original_duration) do
+    "fps=#{fps}*#{frame_count}/#{original_duration}"
   end
 
   defp temporary_file(ext) do
