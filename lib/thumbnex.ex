@@ -45,9 +45,7 @@ defmodule Thumbnex do
     |> Mogrify.resize_to_limit("#{max_width}x#{max_height}")
     |> Mogrify.save(path: output_path)
 
-    File.rm! single_frame_path
-
-    :ok
+    :ok = File.rm! single_frame_path
   end
 
   defp image_format_from_path(path) do
