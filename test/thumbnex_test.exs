@@ -6,14 +6,6 @@ defmodule ThumbnexTest do
   @fixture_image Path.join(__DIR__, "fixtures/cat.jpg")
   @output_file Path.join(System.tmp_dir, "thumbnex-test-output.jpg")
 
-  setup do
-    tmp_copy = Mogrify.open(@fixture_image) |> Mogrify.copy
-
-    on_exit fn ->
-      File.cp tmp_copy.path, @fixture_image
-    end
-  end
-
   test "black image is smaller than cat image" do
     :ok = Thumbnex.create_thumbnail(@fixture_video, @output_file, time_offset: 0)
     %{size: black_size} = File.stat! @output_file
