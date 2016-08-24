@@ -11,6 +11,12 @@ defmodule Thumbnex.Gifs do
     centiseconds / 100
   end
 
+  def optimize_mogrify_image(image) do
+    image
+    |> Mogrify.custom("fuzz", "10%")
+    |> Mogrify.custom("layers", "Optimize")
+  end
+
   defp identify_path do
     Application.get_env(:thumbnex, :identify_path, "identify")
   end

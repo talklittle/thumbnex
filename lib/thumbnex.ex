@@ -5,6 +5,7 @@ defmodule Thumbnex do
 
   alias Thumbnex.Animations
   alias Thumbnex.ExtractFrame
+  alias Thumbnex.Gifs
 
   @doc """
   Create a thumbnail image.
@@ -59,6 +60,7 @@ defmodule Thumbnex do
   * `:max_width` - Maximum width of the thumbnail.
   * `:max_height` - Maximum height of the thumbnail.
   * `:frame_count` - Number of frames to output. Default 4.
+  * `:optimize` - Add mogrify options to reduce output size. Default true.
   """
   @spec animated_gif_thumbnail(binary, binary, Keyword.t) :: :ok
   def animated_gif_thumbnail(input_path, output_path, opts \\ []) do
@@ -70,6 +72,7 @@ defmodule Thumbnex do
     desired_width = number_opt(opts, :width, nil)
     desired_height = number_opt(opts, :height, nil)
     frame_count = number_opt(opts, :frame_count, 4)
+    optimize = Keyword.get(opts, :optimize, true)
 
     multi_frame_path = ExtractFrame.multiple_frames(input_path, frame_count, output_ext: ".gif")
 
@@ -78,6 +81,7 @@ defmodule Thumbnex do
     |> Mogrify.verbose
     |> resize_if_different(desired_width, desired_height)
     |> Mogrify.resize_to_limit("#{max_width}x#{max_height}")
+    |> optimize_mogrify_image(optimize)
     |> Mogrify.save(path: output_path)
 
     :ok = File.rm! multi_frame_path
@@ -107,6 +111,11 @@ defmodule Thumbnex do
       image
     end
   end
+
+  defp optimize_mogrify_image(image, true = _optimize) do
+    Gifs.optimize_mogrify_image(image)
+  end
+  defp optimize_mogrify_image(image, false = _optimize), do: image
 
   defp number_opt(opts, key, default) do
     value = Keyword.get(opts, key)
