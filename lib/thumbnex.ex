@@ -4,6 +4,7 @@ defmodule Thumbnex do
   """
 
   alias Thumbnex.ExtractFrame
+  alias Thumbnex.Gifs
 
   @doc """
   Create a thumbnail image.
@@ -30,7 +31,7 @@ defmodule Thumbnex do
     max_height = number_opt(opts, :max_height, 1_000_000_000_000)
     format = normalize_format(Keyword.get(opts, :format, image_format_from_path(output_path)))
 
-    duration = FFprobe.duration(input_path)
+    duration = duration(input_path)
     frame_time = number_opt(opts, :time_offset, frame_time(duration))
 
     desired_width = number_opt(opts, :width, nil)
@@ -57,6 +58,20 @@ defmodule Thumbnex do
 
   defp normalize_format(format) do
     if String.starts_with?(format, "."), do: String.slice(format, 1..-1), else: format
+  end
+
+  defp duration(input_path) do
+    ffprobe_format = FFprobe.format(input_path)
+    case FFprobe.duration(ffprobe_format) do
+      :no_duration ->
+        if "gif" in FFprobe.format_names(ffprobe_format) do
+          Gifs.duration(input_path)
+        else
+          :no_duration
+        end
+
+      duration -> duration
+    end
   end
 
   defp frame_time(:no_duration), do: 0
