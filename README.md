@@ -23,7 +23,7 @@ Thumbnex.create_thumbnail("/path/to/input.mp4", "/path/to/output.jpg", max_width
 
     ```elixir
     def deps do
-      [{:thumbnex, "~> 0.1.0"}]
+      [{:thumbnex, "~> 0.2.0"}]
     end
     ```
 

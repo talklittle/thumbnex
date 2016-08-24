@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0 (2016-08-24)
+
+* Added `Thumbnex.animated_gif_thumbnail/3`
+
 ## 0.1.0 (2016-08-17)
 
 * First Thumbnex release.
