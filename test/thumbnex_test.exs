@@ -46,6 +46,11 @@ defmodule ThumbnexTest do
     assert %{frame_count: 4} = @output_gif |> Mogrify.open |> Mogrify.verbose
   end
 
+  test "animated_gif_thumbnail/3 with frame_count: 10" do
+    :ok = Thumbnex.animated_gif_thumbnail(@fixture_video, @output_gif, frame_count: 10)
+    assert %{frame_count: 10} = @output_gif |> Mogrify.open |> Mogrify.verbose
+  end
+
   test "optimized GIF has smaller filesize than unoptimized" do
     :ok = Thumbnex.animated_gif_thumbnail(@fixture_video, @output_gif, optimize: true)
     %{size: optimized} = File.stat! @output_gif
