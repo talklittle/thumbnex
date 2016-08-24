@@ -51,6 +51,16 @@ defmodule ThumbnexTest do
     assert %{frame_count: 10} = @output_gif |> Mogrify.open |> Mogrify.verbose
   end
 
+  test "animated_gif_thumbnail/3 with higher frame_count has higher duration, with fixed FPS" do
+    :ok = Thumbnex.animated_gif_thumbnail(@fixture_video, @output_gif, frame_count: 5)
+    duration_1 = Thumbnex.Gifs.duration(@output_gif)
+
+    :ok = Thumbnex.animated_gif_thumbnail(@fixture_video, @output_gif, frame_count: 10)
+    duration_2 = Thumbnex.Gifs.duration(@output_gif)
+
+    assert duration_1 == 0.5*duration_2
+  end
+
   test "animated_gif_thumbnail/3 with higher FPS is shorter duration" do
     :ok = Thumbnex.animated_gif_thumbnail(@fixture_video, @output_gif, fps: 1)
     duration_1 = Thumbnex.Gifs.duration(@output_gif)
@@ -59,6 +69,16 @@ defmodule ThumbnexTest do
     duration_2 = Thumbnex.Gifs.duration(@output_gif)
 
     assert duration_1 == 2*duration_2
+  end
+
+  test "animated_gif_thumbnail/3 FPS and frame_count cancel each other's effect on output duration" do
+    :ok = Thumbnex.animated_gif_thumbnail(@fixture_video, @output_gif, fps: 2, frame_count: 5)
+    duration_1 = Thumbnex.Gifs.duration(@output_gif)
+
+    :ok = Thumbnex.animated_gif_thumbnail(@fixture_video, @output_gif, fps: 4, frame_count: 10)
+    duration_2 = Thumbnex.Gifs.duration(@output_gif)
+
+    assert duration_1 == duration_2
   end
 
   test "optimized GIF has smaller filesize than unoptimized" do

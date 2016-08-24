@@ -49,20 +49,21 @@ defmodule Thumbnex.ExtractFrame do
 
     original_duration = Animations.duration(file_path)
 
+    # use setpts filter to prevent output FPS from influencing which input frames are chosen
+    secs_per_frame = original_duration / frame_count
+    setpts_string = "setpts=PTS/#{secs_per_frame}/#{fps}"
+    fps_string = "fps=#{fps}"
+    vf_value = "#{setpts_string},#{fps_string}"
+
     command =
       new_command
       |> add_input_file(file_path)
       |> add_output_file(output_path)
         |> add_file_option(option_vframes(frame_count))
-        |> add_file_option(option_vf(fps_string(frame_count, fps, original_duration)))
+        |> add_file_option(option_vf(vf_value))
     {_, 0} = execute(command)
 
     output_path
-  end
-
-  defp fps_string(_frame_count, fps, :no_duration), do: "fps=#{fps}"
-  defp fps_string(frame_count, fps, original_duration) do
-    "fps=#{fps}*#{frame_count}/#{original_duration}"
   end
 
   defp temporary_file(ext) do
