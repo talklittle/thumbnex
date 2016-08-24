@@ -26,4 +26,12 @@ defmodule ThumbnexTest do
     :ok = Thumbnex.create_thumbnail(@fixture_video, @output_file, max_width: 160, max_height: 160)
     assert %{width: 160, height: 120} = @output_file |> Mogrify.open |> Mogrify.verbose
   end
+
+  test "preserve aspect when only one dimension specified, for still image" do
+    :ok = Thumbnex.create_thumbnail(@fixture_image, @output_file, width: 150)
+    assert %{width: 150, height: 100} = @output_file |> Mogrify.open |> Mogrify.verbose
+
+    :ok = Thumbnex.create_thumbnail(@fixture_image, @output_file, height: 100)
+    assert %{width: 150, height: 100} = @output_file |> Mogrify.open |> Mogrify.verbose
+  end
 end
