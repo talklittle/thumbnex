@@ -30,12 +30,11 @@ defmodule Thumbnex do
     max_height = number_opt(opts, :max_height, 1_000_000_000_000)
     format = normalize_format(Keyword.get(opts, :format, image_format_from_path(output_path)))
 
-    duration = duration(input_path)
+    duration = FFprobe.duration(input_path)
     frame_time = number_opt(opts, :time_offset, frame_time(duration))
 
-    image = mogrify_verbose(input_path, duration)
-    desired_width = number_opt(opts, :width, (if image, do: image.width))
-    desired_height = number_opt(opts, :height, (if image, do: image.height))
+    desired_width = number_opt(opts, :width, nil)
+    desired_height = number_opt(opts, :height, nil)
 
     single_frame_path = ExtractFrame.single_frame(input_path, frame_time, output_ext: ".#{format}")
 
@@ -62,19 +61,7 @@ defmodule Thumbnex do
     if String.starts_with?(format, "."), do: String.slice(format, 1..-1), else: format
   end
 
-  defp duration(input_path) do
-    case FFprobe.duration(input_path) do
-      :no_duration -> 0
-      duration -> duration
-    end
-  end
-
-  # N/A means not a video file. Assume it's an image file (including GIF).
-  defp mogrify_verbose(input_path, "N/A" = _duration) do
-    input_path |> Mogrify.open |> Mogrify.verbose
-  end
-  defp mogrify_verbose(_input_path, _duration), do: nil
-
+  defp frame_time(:no_duration), do: 0
   defp frame_time(short) when short < 4, do: 0
   defp frame_time(medium) when medium < 10, do: 1
   defp frame_time(long), do: 0.1 * long
