@@ -3,7 +3,9 @@ defmodule Thumbnex do
   Create thumbnails from images and videos.
   """
 
+  alias Thumbnex.Animations
   alias Thumbnex.ExtractFrame
+  alias Thumbnex.Gifs
 
   @doc """
   Create a thumbnail image.
@@ -30,7 +32,7 @@ defmodule Thumbnex do
     max_height = number_opt(opts, :max_height, 1_000_000_000_000)
     format = normalize_format(Keyword.get(opts, :format, image_format_from_path(output_path)))
 
-    duration = FFprobe.duration(input_path)
+    duration = Animations.duration(input_path)
     frame_time = number_opt(opts, :time_offset, frame_time(duration))
 
     desired_width = number_opt(opts, :width, nil)
@@ -46,6 +48,43 @@ defmodule Thumbnex do
     |> Mogrify.save(path: output_path)
 
     :ok = File.rm! single_frame_path
+  end
+
+  @doc """
+  Create an animated GIF preview.
+
+  Options:
+
+  * `:width` - Width of the thumbnail. Defaults to input width.
+  * `:height` - Height of the thumbnail. Defaults to input height.
+  * `:max_width` - Maximum width of the thumbnail.
+  * `:max_height` - Maximum height of the thumbnail.
+  * `:frame_count` - Number of frames to output. Default 4.
+  * `:optimize` - Add mogrify options to reduce output size. Default true.
+  """
+  @spec animated_gif_thumbnail(binary, binary, Keyword.t) :: :ok
+  def animated_gif_thumbnail(input_path, output_path, opts \\ []) do
+    input_path = Path.expand(input_path)
+    output_path = Path.expand(output_path)
+
+    max_width = number_opt(opts, :max_width, 1_000_000_000_000)
+    max_height = number_opt(opts, :max_height, 1_000_000_000_000)
+    desired_width = number_opt(opts, :width, nil)
+    desired_height = number_opt(opts, :height, nil)
+    frame_count = number_opt(opts, :frame_count, 4)
+    optimize = Keyword.get(opts, :optimize, true)
+
+    multi_frame_path = ExtractFrame.multiple_frames(input_path, frame_count, output_ext: ".gif")
+
+    multi_frame_path
+    |> Mogrify.open
+    |> Mogrify.verbose
+    |> resize_if_different(desired_width, desired_height)
+    |> Mogrify.resize_to_limit("#{max_width}x#{max_height}")
+    |> optimize_mogrify_image(optimize)
+    |> Mogrify.save(path: output_path)
+
+    :ok = File.rm! multi_frame_path
   end
 
   defp image_format_from_path(path) do
@@ -72,6 +111,11 @@ defmodule Thumbnex do
       image
     end
   end
+
+  defp optimize_mogrify_image(image, true = _optimize) do
+    Gifs.optimize_mogrify_image(image)
+  end
+  defp optimize_mogrify_image(image, false = _optimize), do: image
 
   defp number_opt(opts, key, default) do
     value = Keyword.get(opts, key)
