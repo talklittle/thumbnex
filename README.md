@@ -12,6 +12,12 @@ Documentation: https://hexdocs.pm/thumbnex/
 Thumbnex.create_thumbnail("/path/to/input.mp4", "/path/to/output.jpg", max_width: 200, max_height: 200)
 ```
 
+Create a lightweight animated GIF preview:
+
+```elixir
+Thumbnex.animated_gif_thumbnail("/path/to/input.mp4", "/path/to/output.gif", frame_count: 4, fps: 1)
+```
+
 ## Prerequisites
 
 * [ImageMagick](https://imagemagick.org)
