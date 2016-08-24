@@ -6,6 +6,7 @@ defmodule ThumbnexTest do
   @fixture_image Path.join(__DIR__, "fixtures/cat.jpg")
   @fixture_gif   Path.join(__DIR__, "fixtures/cat_2frame.gif")
   @output_file   Path.join(System.tmp_dir, "thumbnex-test-output.jpg")
+  @output_gif    Path.join(System.tmp_dir, "thumbnex-test-output.gif")
 
   test "black image is smaller than cat image" do
     :ok = Thumbnex.create_thumbnail(@fixture_video, @output_file, time_offset: 0)
@@ -38,5 +39,10 @@ defmodule ThumbnexTest do
 
   test "animated gif duration" do
     assert 1.0 == Thumbnex.Gifs.duration(@fixture_gif)
+  end
+
+  test "animated_gif_thumbnail/3 creates a GIF with 4 frames" do
+    :ok = Thumbnex.animated_gif_thumbnail(@fixture_video, @output_gif)
+    assert %{frame_count: 4} = @output_gif |> Mogrify.open |> Mogrify.verbose
   end
 end
