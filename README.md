@@ -6,7 +6,9 @@ Elixir library to generate thumbnails from images and videos.
 
 Documentation: https://hexdocs.pm/thumbnex/
 
-## Example
+## Examples
+
+Create a regular thumbnail:
 
 ```elixir
 Thumbnex.create_thumbnail("/path/to/input.mp4", "/path/to/output.jpg", max_width: 200, max_height: 200)
