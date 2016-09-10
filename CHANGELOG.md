@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1 (2016-09-10)
+
+* Bump ffmpex dependency to 0.3.0
+
 ## 0.2.0 (2016-08-24)
 
 * Added `Thumbnex.animated_gif_thumbnail/3`
