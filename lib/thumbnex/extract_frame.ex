@@ -3,8 +3,7 @@ defmodule Thumbnex.ExtractFrame do
   alias Thumbnex.Animations
 
   import FFmpex
-  import FFmpex.Options.Main
-  import FFmpex.Options.Video
+  use FFmpex.Options
 
   @doc """
   Extract a single frame from the input file.
@@ -27,7 +26,7 @@ defmodule Thumbnex.ExtractFrame do
       |> add_output_file(output_path)
         |> add_file_option(option_ss(time_offset_seconds))
         |> add_file_option(option_vframes(1))
-    {_, 0} = execute(command)
+    :ok = execute(command)
 
     output_path
   end
@@ -61,7 +60,7 @@ defmodule Thumbnex.ExtractFrame do
       |> add_output_file(output_path)
         |> add_file_option(option_vframes(frame_count))
         |> add_file_option(option_vf(vf_value))
-    {_, 0} = execute(command)
+    :ok = execute(command)
 
     output_path
   end
