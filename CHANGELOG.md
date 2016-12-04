@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.2 (2016-12-03)
+
+* Bump ffmpex dependency to 0.4.0
+
 ## 0.2.1 (2016-09-10)
 
 * Bump ffmpex dependency to 0.3.0
