@@ -29,7 +29,7 @@ defmodule Thumbnex.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:mogrify, "~> 0.4.0"},
+    [{:mogrify, "~> 0.5.3"},
      {:ffmpex, "~> 0.4.0"},
      {:ex_doc, ">= 0.0.0", only: :dev}]
   end

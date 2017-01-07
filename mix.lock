@@ -1,4 +1,4 @@
 %{"earmark": {:hex, :earmark, "1.0.3", "89bdbaf2aca8bbb5c97d8b3b55c5dd0cff517ecc78d417e87f1d0982e514557b", [:mix], []},
   "ex_doc": {:hex, :ex_doc, "0.14.5", "c0433c8117e948404d93ca69411dd575ec6be39b47802e81ca8d91017a0cf83c", [:mix], [{:earmark, "~> 1.0", [hex: :earmark, optional: false]}]},
   "ffmpex": {:hex, :ffmpex, "0.4.0", "2c6822e0461909ea8c6681d84f1e65c6aef797000d1b6de875d9f29efc1a699a", [:mix], []},
-  "mogrify": {:hex, :mogrify, "0.4.0", "bed8602f9e11bbdc9f795cf1e8f007368a630a8cd6a6b15b241ab8e311c332c5", [], []}}
+  "mogrify": {:hex, :mogrify, "0.5.3", "f374bd700bbd6724bb52b11818f912c8376cfcd212c229a87d74f4e5963c5ff8", [:mix], []}}
