@@ -21,7 +21,7 @@ defmodule Thumbnex.ExtractFrame do
     output_path = Keyword.get(opts, :output_path, temporary_file(output_ext))
 
     command =
-      new_command
+      new_command()
       |> add_input_file(file_path)
       |> add_output_file(output_path)
         |> add_file_option(option_ss(time_offset_seconds))
@@ -55,7 +55,7 @@ defmodule Thumbnex.ExtractFrame do
     vf_value = "#{setpts_string},#{fps_string}"
 
     command =
-      new_command
+      new_command()
       |> add_input_file(file_path)
       |> add_output_file(output_path)
         |> add_file_option(option_vframes(frame_count))
