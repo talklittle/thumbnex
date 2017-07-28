@@ -31,7 +31,7 @@ Thumbnex.animated_gif_thumbnail("/path/to/input.mp4", "/path/to/output.gif", fra
 
     ```elixir
     def deps do
-      [{:thumbnex, "~> 0.2.3"}]
+      [{:thumbnex, "~> 0.2.4"}]
     end
     ```
 

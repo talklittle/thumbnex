@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.4 (2017-07-27)
+
+* Fix Elixir 1.5, Erlang 19 warnings
+
 ## 0.2.3 (2017-01-07)
 
 * Fix Elixir 1.4 warnings
