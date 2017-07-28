@@ -66,7 +66,17 @@ defmodule Thumbnex.ExtractFrame do
   end
 
   defp temporary_file(ext) do
-    random = :rand.uniform(999_999_999_999)
+    random = rand_uniform(999_999_999_999)
     Path.join(System.tmp_dir, "thumbnex-#{random}#{ext}")
+  end
+
+  defp rand_uniform(high) do
+    Code.ensure_loaded(:rand)
+    if function_exported?(:rand, :uniform, 1) do
+      :rand.uniform(high)
+    else
+      # Erlang/OTP < 19
+      apply(:crypto, :rand_uniform, [1, high])
+    end
   end
 end
