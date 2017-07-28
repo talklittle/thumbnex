@@ -66,7 +66,7 @@ defmodule Thumbnex.ExtractFrame do
   end
 
   defp temporary_file(ext) do
-    random = :crypto.rand_uniform(100_000, 999_999_999_999)
+    random = :rand.uniform(999_999_999_999)
     Path.join(System.tmp_dir, "thumbnex-#{random}#{ext}")
   end
 end
