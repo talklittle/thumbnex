@@ -1,11 +1,11 @@
 group: edge
 language: elixir
-elixir:
-  - 1.0.2
-  - 1.4.5
-otp_release:
-  - 17.4
-  - 20.0.1
+matrix:
+  include:
+    - otp_release: 17.4
+      elixir: 1.0
+    - otp_release: 20.0
+      elixir: 1.4
 sudo: required
 dist: trusty
 before_install:
