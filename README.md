@@ -27,20 +27,12 @@ Thumbnex.animated_gif_thumbnail("/path/to/input.mp4", "/path/to/output.gif", fra
 
 ## Installation
 
-  1. Add `thumbnex` to your list of dependencies in `mix.exs`:
+Add `thumbnex` to your list of dependencies in `mix.exs`:
 
 ```elixir
-    def deps do
-      [{:thumbnex, "~> 0.2.4"}]
-    end
-```
-
-  2. Ensure `thumbnex` is started before your application:
-
-```elixir
-    def application do
-      [applications: [:thumbnex]]
-    end
+def deps do
+  [{:thumbnex, "~> 0.3.0"}]
+end
 ```
 
 ## Release notes
