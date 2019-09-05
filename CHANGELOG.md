@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1 (2019-09-05)
+
+* Bump ffmpex dependency to 0.7.0.
+* Bump mogrify dependency to 0.7.3.
+
 ## 0.3.0 (2018-03-26)
 
 * Bump ffmpex dependency to 0.5.0.
