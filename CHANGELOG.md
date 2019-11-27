@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.2 (2019-11-26)
+
+* Fix `Thumbnex.Animations.duration/1` regression.
+
 ## 0.3.1 (2019-09-05)
 
 * Bump ffmpex dependency to 0.7.0.
