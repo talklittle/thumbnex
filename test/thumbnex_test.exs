@@ -90,4 +90,10 @@ defmodule ThumbnexTest do
 
     assert optimized < unoptimized
   end
+
+  describe "Thumbnex.Animations.duration/1" do
+    test "returns a duration for a gif" do
+      assert 1.0 == Thumbnex.Animations.duration(@fixture_gif)
+    end
+  end
 end

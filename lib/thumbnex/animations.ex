@@ -6,7 +6,8 @@ defmodule Thumbnex.Animations do
     {:ok, ffprobe_format} = FFprobe.format(input_path)
     case FFprobe.duration(ffprobe_format) do
       :no_duration ->
-        if "gif" in FFprobe.format_names(ffprobe_format) do
+        {:ok, format_names} = FFprobe.format_names(ffprobe_format)
+        if "gif" in format_names do
           Gifs.duration(input_path)
         else
           :no_duration
