@@ -1,10 +1,14 @@
 # Changelog
 
-## 0.3.2 (2019-11-26)
+### 0.3.3 (2020-07-09)
+
+* Bump dependency versions.
+
+### 0.3.2 (2019-11-26)
 
 * Fix `Thumbnex.Animations.duration/1` regression.
 
-## 0.3.1 (2019-09-05)
+### 0.3.1 (2019-09-05)
 
 * Bump ffmpex dependency to 0.7.0.
 * Bump mogrify dependency to 0.7.3.
@@ -14,20 +18,20 @@
 * Bump ffmpex dependency to 0.5.0.
 * Require Elixir 1.4.
 
-## 0.2.4 (2017-07-27)
+### 0.2.4 (2017-07-27)
 
 * Fix Elixir 1.5, Erlang 19 warnings.
 
-## 0.2.3 (2017-01-07)
+### 0.2.3 (2017-01-07)
 
 * Fix Elixir 1.4 warnings.
 * Bump mogrify dependency to 0.5.3.
 
-## 0.2.2 (2016-12-03)
+### 0.2.2 (2016-12-03)
 
 * Bump ffmpex dependency to 0.4.0.
 
-## 0.2.1 (2016-09-10)
+### 0.2.1 (2016-09-10)
 
 * Bump ffmpex dependency to 0.3.0.
 
