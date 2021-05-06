@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.3.4 (2021-05-05)
+
+* Bump dependency versions.
+
 ### 0.3.3 (2020-07-09)
 
 * Bump dependency versions.
