@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.3.5 (2021-07-03)
+
+* Bump mogrify dependency to 0.9.0.
+
 ### 0.3.4 (2021-05-05)
 
 * Bump dependency versions.
