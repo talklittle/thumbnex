@@ -1,6 +1,6 @@
 # Thumbnex
 
-[![Build Status](https://travis-ci.org/talklittle/thumbnex.svg?branch=master)](https://travis-ci.org/talklittle/thumbnex)
+[![Build Status](https://github.com/talklittle/thumbnex/actions/workflows/ci.yml/badge.svg)](https://github.com/talklittle/thumbnex/actions?query=workflow%3ACI)
 
 Elixir library to generate thumbnails from images and videos.
 
