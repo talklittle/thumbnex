@@ -1,49 +1,58 @@
 defmodule Thumbnex.Mixfile do
   use Mix.Project
 
+  @source_url "https://github.com/talklittle/thumbnex"
+  @version "0.3.5"
+
   def project do
-    [app: :thumbnex,
-     version: "0.3.5",
-     elixir: "~> 1.4",
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     deps: deps(),
-     description: description(),
-     package: package()]
+    [
+      app: :thumbnex,
+      version: @version,
+      elixir: "~> 1.4",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      deps: deps(),
+      docs: docs(),
+      package: package()
+    ]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type "mix help compile.app" for more information
   def application do
     [extra_applications: [:logger]]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:mydep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
   defp deps do
-    [{:mogrify, "~> 0.9.0"},
-     {:ffmpex, "~> 0.7.0"},
-     {:ex_doc, ">= 0.0.0", only: :dev}]
-  end
-
-  defp description do
-    "Create thumbnails from images and video screenshots."
+    [
+      {:mogrify, "~> 0.9.0"},
+      {:ffmpex, "~> 0.7.0"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+    ]
   end
 
   defp package do
     [
+      description: "Create thumbnails from images and video screenshots.",
       files: ["lib", "mix.exs", "README*", "CHANGELOG*", "LICENSE*"],
       maintainers: ["Andrew Shu"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/talklittle/thumbnex"}
+      links: %{
+        "Changelog" => "https://hexdocs.pm/thumbnex/changelog.html",
+        "GitHub" => @source_url
+      }
+    ]
+  end
+
+  defp docs do
+    [
+      extras: [
+        "CHANGELOG.md": [],
+        "LICENSE.md": [],
+        "README.md": []
+      ],
+      main: "readme",
+      source_url: @source_url,
+      source_ref: "v#{@version}",
+      formatters: ["html"]
     ]
   end
 end
