@@ -2,12 +2,10 @@
 
 [![Build Status](https://github.com/talklittle/thumbnex/actions/workflows/ci.yml/badge.svg)](https://github.com/talklittle/thumbnex/actions?query=workflow%3ACI)
 [![Module Version](https://img.shields.io/hexpm/v/thumbnex.svg)](https://hex.pm/packages/thumbnex)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/thumbnex/)
-[![Total Download](https://img.shields.io/hexpm/dt/thumbnex.svg)](https://hex.pm/packages/thumbnex)
-[![License](https://img.shields.io/hexpm/l/thumbnex.svg)](https://github.com/talklittle/thumbnex/blob/master/LICENSE.md)
-[![Last Updated](https://img.shields.io/github/last-commit/talklittle/thumbnex.svg)](https://github.com/talklittle/thumbnex/commits/master)
 
 Elixir library to generate thumbnails from images and videos.
+
+Documentation: https://hexdocs.pm/thumbnex/
 
 ## Installation
 
