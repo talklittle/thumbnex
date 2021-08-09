@@ -7,6 +7,7 @@ defmodule Thumbnex.ExtractFrame do
 
   @doc """
   Extract a single frame from the input file.
+
   Specify the time offset in seconds (0 for still images).
 
   Returns the path of the single frame image file.
