@@ -14,7 +14,7 @@ Add `:thumbnex` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:thumbnex, "~> 0.3.5"}
+    {:thumbnex, "~> 0.3.6"}
   ]
 end
 ```
