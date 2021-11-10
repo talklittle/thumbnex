@@ -26,7 +26,7 @@ defmodule Thumbnex.ExtractFrame do
       |> add_output_file(output_path)
         |> add_file_option(option_ss(time_offset_seconds))
         |> add_file_option(option_vframes(1))
-    :ok = execute(command)
+    {:ok, _} = execute(command)
 
     output_path
   end
@@ -60,7 +60,7 @@ defmodule Thumbnex.ExtractFrame do
       |> add_output_file(output_path)
         |> add_file_option(option_vframes(frame_count))
         |> add_file_option(option_vf(vf_value))
-    :ok = execute(command)
+    {:ok, _} = execute(command)
 
     output_path
   end
