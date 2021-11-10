@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.3.6 (2021-11-10)
+
+* Bump ffmpex dependency to 0.8.0.
+
 ### 0.3.5 (2021-07-03)
 
 * Bump mogrify dependency to 0.9.0.
