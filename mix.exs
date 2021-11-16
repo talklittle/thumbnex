@@ -8,7 +8,7 @@ defmodule Thumbnex.Mixfile do
     [
       app: :thumbnex,
       version: @version,
-      elixir: "~> 1.4",
+      elixir: "~> 1.9",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -24,7 +24,7 @@ defmodule Thumbnex.Mixfile do
   defp deps do
     [
       {:mogrify, "~> 0.9.0"},
-      {:ffmpex, "~> 0.8.0"},
+      {:ffmpex, "~> 0.9.0"},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
