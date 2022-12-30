@@ -23,7 +23,8 @@ defmodule Thumbnex do
   * `:time_offset` - Timestamp in seconds at which to take screenshot, for videos and GIFs.
     By default picks a time near the beginning, based on video duration.
   """
-  @spec create_thumbnail(binary, binary, Keyword.t) :: :ok
+  @spec create_thumbnail(binary, binary, Keyword.t()) ::
+          :ok | {:error, {Collectable.t(), exit_status :: non_neg_integer}}
   def create_thumbnail(input_path, output_path, opts \\ []) do
     input_path = Path.expand(input_path)
     output_path = Path.expand(output_path)
@@ -32,22 +33,34 @@ defmodule Thumbnex do
     max_height = number_opt(opts, :max_height, 1_000_000_000_000)
     format = normalize_format(Keyword.get(opts, :format, image_format_from_path(output_path)))
 
-    duration = Animations.duration(input_path)
-    frame_time = number_opt(opts, :time_offset, frame_time(duration))
+    Animations.duration(input_path)
+    |> case do
+      {:ok, duration} ->
+        frame_time = number_opt(opts, :time_offset, frame_time(duration))
 
-    desired_width = number_opt(opts, :width, nil)
-    desired_height = number_opt(opts, :height, nil)
+        desired_width = number_opt(opts, :width, nil)
 
-    single_frame_path = ExtractFrame.single_frame(input_path, frame_time, output_ext: ".#{format}")
+        desired_height = number_opt(opts, :height, nil)
 
-    single_frame_path
-    |> Mogrify.open
-    |> Mogrify.verbose
-    |> resize_if_different(desired_width, desired_height)
-    |> Mogrify.resize_to_limit("#{max_width}x#{max_height}")
-    |> Mogrify.save(path: output_path)
+        ExtractFrame.single_frame(input_path, frame_time, output_ext: ".#{format}")
+        |> case do
+          {:ok, single_frame_path} ->
+            single_frame_path
+            |> Mogrify.open()
+            |> Mogrify.verbose()
+            |> resize_if_different(desired_width, desired_height)
+            |> Mogrify.resize_to_limit("#{max_width}x#{max_height}")
+            |> Mogrify.save(path: output_path)
 
-    :ok = File.rm! single_frame_path
+            :ok = File.rm!(single_frame_path)
+
+          res ->
+            res
+        end
+
+      res ->
+        res
+    end
   end
 
   @doc """
@@ -63,7 +76,8 @@ defmodule Thumbnex do
   * `:fps` - Frames per second of output GIF. Default 1.
   * `:optimize` - Add mogrify options to reduce output size. Default true.
   """
-  @spec animated_gif_thumbnail(binary, binary, Keyword.t) :: :ok
+  @spec animated_gif_thumbnail(binary, binary, Keyword.t()) ::
+          :ok | {:error, {Collectable.t(), exit_status :: non_neg_integer}}
   def animated_gif_thumbnail(input_path, output_path, opts \\ []) do
     input_path = Path.expand(input_path)
     output_path = Path.expand(output_path)
@@ -76,23 +90,29 @@ defmodule Thumbnex do
     fps = number_opt(opts, :fps, 1)
     optimize = Keyword.get(opts, :optimize, true)
 
-    multi_frame_path = ExtractFrame.multiple_frames(input_path, frame_count, fps, output_ext: ".gif")
+    ExtractFrame.multiple_frames(input_path, frame_count, fps, output_ext: ".gif")
+    |> case do
+      {:ok, multi_frame_path} ->
+        multi_frame_path
+        |> Mogrify.open()
+        |> Mogrify.verbose()
+        |> resize_if_different(desired_width, desired_height)
+        |> Mogrify.resize_to_limit("#{max_width}x#{max_height}")
+        |> optimize_mogrify_image(optimize)
+        |> Mogrify.save(path: output_path)
 
-    multi_frame_path
-    |> Mogrify.open
-    |> Mogrify.verbose
-    |> resize_if_different(desired_width, desired_height)
-    |> Mogrify.resize_to_limit("#{max_width}x#{max_height}")
-    |> optimize_mogrify_image(optimize)
-    |> Mogrify.save(path: output_path)
+        :ok = File.rm!(multi_frame_path)
 
-    :ok = File.rm! multi_frame_path
+      res ->
+        res
+    end
   end
 
   defp image_format_from_path(path) do
     case Path.extname(path) do
       "" -> "png"
-      extname -> String.slice(extname, 1..-1)  # remove "."
+      # remove "."
+      extname -> String.slice(extname, 1..-1)
     end
   end
 
@@ -106,6 +126,7 @@ defmodule Thumbnex do
   defp frame_time(long), do: 0.1 * long
 
   defp resize_if_different(image, nil, nil), do: image
+
   defp resize_if_different(%{width: width, height: height} = image, desired_width, desired_height) do
     if width != desired_width or height != desired_height do
       image |> Mogrify.resize("#{desired_width}x#{desired_height}")
@@ -117,6 +138,7 @@ defmodule Thumbnex do
   defp optimize_mogrify_image(image, true = _optimize) do
     Gifs.optimize_mogrify_image(image)
   end
+
   defp optimize_mogrify_image(image, false = _optimize), do: image
 
   defp number_opt(opts, key, default) do

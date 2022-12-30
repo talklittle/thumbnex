@@ -11,6 +11,7 @@ defmodule Thumbnex.Mixfile do
       elixir: "~> 1.9",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
+      compilers: [:rambo] ++ Mix.compilers(),
       deps: deps(),
       docs: docs(),
       package: package()
