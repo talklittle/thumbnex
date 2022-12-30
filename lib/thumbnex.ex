@@ -13,6 +13,8 @@ defmodule Thumbnex do
   Image format is inferred from output path file extension.
   To override, pass the `:format` option.
 
+  Return tuple with :ok, nil value if everything goes well or :error, error output
+
   Options:
 
   * `:width` - Width of the thumbnail. Defaults to input width.
@@ -24,7 +26,7 @@ defmodule Thumbnex do
     By default picks a time near the beginning, based on video duration.
   """
   @spec create_thumbnail(binary, binary, Keyword.t()) ::
-          :ok | {:error, {Collectable.t(), exit_status :: non_neg_integer}}
+          {:ok, nil} | {:error, {Collectable.t(), exit_status :: non_neg_integer}}
   def create_thumbnail(input_path, output_path, opts \\ []) do
     input_path = Path.expand(input_path)
     output_path = Path.expand(output_path)
@@ -52,7 +54,14 @@ defmodule Thumbnex do
             |> Mogrify.resize_to_limit("#{max_width}x#{max_height}")
             |> Mogrify.save(path: output_path)
 
-            :ok = File.rm!(single_frame_path)
+            File.rm(single_frame_path)
+            |> case do
+              :ok ->
+                {:ok, nil}
+
+              res ->
+                res
+            end
 
           res ->
             res
@@ -101,7 +110,14 @@ defmodule Thumbnex do
         |> optimize_mogrify_image(optimize)
         |> Mogrify.save(path: output_path)
 
-        :ok = File.rm!(multi_frame_path)
+        File.rm(multi_frame_path)
+        |> case do
+          :ok ->
+            {:ok, nil}
+
+          res ->
+            res
+        end
 
       res ->
         res
