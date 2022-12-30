@@ -1,20 +1,27 @@
 defmodule Thumbnex.Animations do
-
   alias Thumbnex.Gifs
 
+  @spec duration(file_path :: binary()) :: {:ok, non_neg_integer()} | {:error, any()}
   def duration(input_path) do
-    {:ok, ffprobe_format} = FFprobe.format(input_path)
-    case FFprobe.duration(ffprobe_format) do
-      :no_duration ->
-        {:ok, format_names} = FFprobe.format_names(ffprobe_format)
-        if "gif" in format_names do
-          Gifs.duration(input_path)
-        else
-          :no_duration
+    FFprobe.format(input_path)
+    |> case do
+      {:ok, ffprobe_format} ->
+        case FFprobe.duration(ffprobe_format) do
+          :no_duration ->
+            {:ok, format_names} = FFprobe.format_names(ffprobe_format)
+
+            if "gif" in format_names do
+              {:ok, Gifs.duration(input_path)}
+            else
+              {:ok, :no_duration}
+            end
+
+          duration ->
+            {:ok, duration}
         end
 
-      duration -> duration
+      res ->
+        res
     end
   end
-
 end
