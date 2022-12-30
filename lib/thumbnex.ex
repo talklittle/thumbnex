@@ -34,41 +34,30 @@ defmodule Thumbnex do
     max_width = number_opt(opts, :max_width, 1_000_000_000_000)
     max_height = number_opt(opts, :max_height, 1_000_000_000_000)
     format = normalize_format(Keyword.get(opts, :format, image_format_from_path(output_path)))
+    desired_width = number_opt(opts, :width, nil)
+    desired_height = number_opt(opts, :height, nil)
 
-    Animations.duration(input_path)
-    |> case do
-      {:ok, duration} ->
-        frame_time = number_opt(opts, :time_offset, frame_time(duration))
+    with {:ok, duration} <- Animations.duration(input_path),
+         frame_time <- number_opt(opts, :time_offset, frame_time(duration)),
+         {:ok, single_frame_path} <-
+           ExtractFrame.single_frame(input_path, frame_time, output_ext: ".#{format}") do
+      single_frame_path
+      |> Mogrify.open()
+      |> Mogrify.verbose()
+      |> resize_if_different(desired_width, desired_height)
+      |> Mogrify.resize_to_limit("#{max_width}x#{max_height}")
+      |> Mogrify.save(path: output_path)
 
-        desired_width = number_opt(opts, :width, nil)
+      File.rm(single_frame_path)
+      |> case do
+        :ok ->
+          {:ok, nil}
 
-        desired_height = number_opt(opts, :height, nil)
-
-        ExtractFrame.single_frame(input_path, frame_time, output_ext: ".#{format}")
-        |> case do
-          {:ok, single_frame_path} ->
-            single_frame_path
-            |> Mogrify.open()
-            |> Mogrify.verbose()
-            |> resize_if_different(desired_width, desired_height)
-            |> Mogrify.resize_to_limit("#{max_width}x#{max_height}")
-            |> Mogrify.save(path: output_path)
-
-            File.rm(single_frame_path)
-            |> case do
-              :ok ->
-                {:ok, nil}
-
-              res ->
-                res
-            end
-
-          res ->
-            res
-        end
-
-      res ->
-        res
+        res ->
+          res
+      end
+    else
+      res -> res
     end
   end
 

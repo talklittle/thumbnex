@@ -26,7 +26,9 @@ defmodule ThumbnexTest do
   end
 
   test "max_width and max_height" do
-    {:ok, nil} = Thumbnex.create_thumbnail(@fixture_video, @output_file, max_width: 160, max_height: 160)
+    {:ok, nil} =
+      Thumbnex.create_thumbnail(@fixture_video, @output_file, max_width: 160, max_height: 160)
+
     assert %{width: 160, height: 120} = @output_file |> Mogrify.open() |> Mogrify.verbose()
   end
 
@@ -73,10 +75,14 @@ defmodule ThumbnexTest do
   end
 
   test "animated_gif_thumbnail/3 FPS and frame_count cancel each other's effect on output duration" do
-    {:ok, nil} = Thumbnex.animated_gif_thumbnail(@fixture_video, @output_gif, fps: 2, frame_count: 5)
+    {:ok, nil} =
+      Thumbnex.animated_gif_thumbnail(@fixture_video, @output_gif, fps: 2, frame_count: 5)
+
     duration_1 = Thumbnex.Gifs.duration(@output_gif)
 
-    {:ok, nil} = Thumbnex.animated_gif_thumbnail(@fixture_video, @output_gif, fps: 4, frame_count: 10)
+    {:ok, nil} =
+      Thumbnex.animated_gif_thumbnail(@fixture_video, @output_gif, fps: 4, frame_count: 10)
+
     duration_2 = Thumbnex.Gifs.duration(@output_gif)
 
     assert duration_1 == duration_2
