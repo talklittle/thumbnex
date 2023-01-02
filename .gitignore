@@ -24,8 +24,6 @@ thumbnex-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
-<<<<<<< Updated upstream
-=======
 
 # LSP for elixir 
 .elixir_ls
@@ -33,4 +31,3 @@ thumbnex-*.tar
 # Dializer files
 /priv/plts/*.plt
 /priv/plts/*.plt.hash
->>>>>>> Stashed changes

@@ -11,8 +11,13 @@ defmodule Thumbnex.Mixfile do
       elixir: "~> 1.9",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
+      compilers: [:rambo] ++ Mix.compilers(),
       deps: deps(),
       docs: docs(),
+      dialyzer: [
+        plt_add_apps: [:mix, :ex_unit],
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
+      ],
       package: package()
     ]
   end
@@ -25,6 +30,7 @@ defmodule Thumbnex.Mixfile do
     [
       {:mogrify, "~> 0.9.0"},
       {:ffmpex, "~> 0.9.0"},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
   end
