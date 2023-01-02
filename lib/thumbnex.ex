@@ -13,7 +13,7 @@ defmodule Thumbnex do
   Image format is inferred from output path file extension.
   To override, pass the `:format` option.
 
-  Return tuple with :ok, nil value if everything goes well or :error, error output
+  Return tuple with {:ok, nil} value if everything goes well or {:error, error_output}
 
   Options:
 
@@ -26,7 +26,7 @@ defmodule Thumbnex do
     By default picks a time near the beginning, based on video duration.
   """
   @spec create_thumbnail(binary, binary, Keyword.t()) ::
-          {:ok, nil} | {:error, {Collectable.t(), exit_status :: non_neg_integer}}
+          {:ok, nil} | {:error, any()}
   def create_thumbnail(input_path, output_path, opts \\ []) do
     input_path = Path.expand(input_path)
     output_path = Path.expand(output_path)
@@ -38,7 +38,7 @@ defmodule Thumbnex do
     desired_height = number_opt(opts, :height, nil)
 
     with {:ok, duration} <- Animations.duration(input_path),
-         frame_time <- number_opt(opts, :time_offset, frame_time(duration)),
+         {:ok, frame_time} <- {:ok, number_opt(opts, :time_offset, frame_time(duration))},
          {:ok, single_frame_path} <-
            ExtractFrame.single_frame(input_path, frame_time, output_ext: ".#{format}") do
       single_frame_path
@@ -53,11 +53,12 @@ defmodule Thumbnex do
         :ok ->
           {:ok, nil}
 
-        res ->
-          res
+        {:error, _reason} = error ->
+          error
       end
     else
-      res -> res
+      {:error, _reason} = error ->
+        error
     end
   end
 
