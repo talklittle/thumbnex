@@ -1,7 +1,7 @@
 defmodule Thumbnex.Animations do
   alias Thumbnex.Gifs
 
-  @spec duration(file_path :: binary()) :: {:ok, non_neg_integer()} | {:error, any()}
+  @spec duration(file_path :: binary()) :: {:ok, any()} | {:error, any()}
   def duration(input_path) do
     FFprobe.format(input_path)
     |> case do
