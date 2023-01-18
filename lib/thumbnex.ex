@@ -26,7 +26,7 @@ defmodule Thumbnex do
     By default picks a time near the beginning, based on video duration.
   """
   @spec create_thumbnail(binary, binary, Keyword.t()) ::
-          {:ok, nil} | {:error, any()}
+          :ok | {:error, any()}
   def create_thumbnail(input_path, output_path, opts \\ []) do
     input_path = Path.expand(input_path)
     output_path = Path.expand(output_path)
@@ -49,13 +49,6 @@ defmodule Thumbnex do
       |> Mogrify.save(path: output_path)
 
       File.rm(single_frame_path)
-      |> case do
-        :ok ->
-          {:ok, nil}
-
-        {:error, _reason} = error ->
-          error
-      end
     else
       {:error, _reason} = error ->
         error
@@ -101,13 +94,6 @@ defmodule Thumbnex do
         |> Mogrify.save(path: output_path)
 
         File.rm(multi_frame_path)
-        |> case do
-          :ok ->
-            {:ok, nil}
-
-          res ->
-            res
-        end
 
       res ->
         res
