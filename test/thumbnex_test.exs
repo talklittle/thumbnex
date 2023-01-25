@@ -95,7 +95,7 @@ defmodule ThumbnexTest do
     assert optimized < unoptimized
   end
 
-  test "ivalid video" do
+  test "invalid video" do
     assert {:error, _reason} =
              Thumbnex.create_thumbnail(@fixture_invalid_video, @output_file, time_offset: 0)
   end
@@ -107,7 +107,7 @@ defmodule ThumbnexTest do
   end
 
   describe "Thumbnex.ExtractFrame.single_frame/3" do
-    test "returns the single  frame thumbnail" do
+    test "returns error for invalid video" do
       assert {:error, _res} =
                Thumbnex.ExtractFrame.single_frame(@fixture_invalid_video, 0,
                  output_ext: ".jpg",

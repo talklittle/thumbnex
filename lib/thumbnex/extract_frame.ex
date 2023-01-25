@@ -44,7 +44,7 @@ defmodule Thumbnex.ExtractFrame do
   Extract multiple frames from the input file.
   Specify the number of frames, and the frames per second, to output.
 
-  Returns a tuple with :ok and the path of the output file (a single file containing multiple frames) or :error and the comd output and exit status
+  Returns a tuple with :ok and the path of the output file (a single file containing multiple frames) or :error and the cmd output and exit status
 
   Options:
 

@@ -13,7 +13,7 @@ defmodule Thumbnex do
   Image format is inferred from output path file extension.
   To override, pass the `:format` option.
 
-  Return tuple with {:ok, nil} value if everything goes well or {:error, error_output}
+  Return `:ok` if everything goes well or `{:error, error_output}`
 
   Options:
 
