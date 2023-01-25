@@ -24,3 +24,10 @@ thumbnex-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# LSP for elixir 
+.elixir_ls
+
+# Dializer files
+/priv/plts/*.plt
+/priv/plts/*.plt.hash

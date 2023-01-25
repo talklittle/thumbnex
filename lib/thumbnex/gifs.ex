@@ -1,13 +1,15 @@
 defmodule Thumbnex.Gifs do
-
   @doc """
   Return the GIF duration in seconds.
   """
   def duration(gif_path) do
-    {result, 0} = System.cmd identify_path(), ~w(-format %T\\n #{gif_path})
-    centiseconds = Enum.reduce(String.split(result), 0, fn(x, acc) ->
-      String.to_integer(String.trim(x)) + acc
-    end)
+    {result, 0} = System.cmd(identify_path(), ~w(-format %T\\n #{gif_path}))
+
+    centiseconds =
+      Enum.reduce(String.split(result), 0, fn x, acc ->
+        String.to_integer(String.trim(x)) + acc
+      end)
+
     centiseconds / 100
   end
 
