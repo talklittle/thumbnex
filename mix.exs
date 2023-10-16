@@ -29,7 +29,7 @@ defmodule Thumbnex.Mixfile do
   defp deps do
     [
       {:mogrify, "~> 0.9.0"},
-      {:ffmpex, "~> 0.9.0"},
+      {:ffmpex, "~> 0.10.0"},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
     ]
