@@ -8,7 +8,7 @@ defmodule Thumbnex.Mixfile do
     [
       app: :thumbnex,
       version: @version,
-      elixir: "~> 1.9",
+      elixir: "~> 1.12",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       compilers: [:rambo] ++ Mix.compilers(),
