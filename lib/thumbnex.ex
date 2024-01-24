@@ -104,12 +104,12 @@ defmodule Thumbnex do
     case Path.extname(path) do
       "" -> "png"
       # remove "."
-      extname -> String.slice(extname, 1..-1)
+      extname -> String.slice(extname, 1..-1//1)
     end
   end
 
   defp normalize_format(format) do
-    if String.starts_with?(format, "."), do: String.slice(format, 1..-1), else: format
+    if String.starts_with?(format, "."), do: String.slice(format, 1..-1//1), else: format
   end
 
   defp frame_time(:no_duration), do: 0
