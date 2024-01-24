@@ -14,7 +14,7 @@ Add `:thumbnex` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:thumbnex, "~> 0.4.0"}
+    {:thumbnex, "~> 0.5.0"}
   ]
 end
 ```
@@ -54,6 +54,6 @@ Thumbnex.animated_gif_thumbnail(
 
 ## Copyright and License
 
-Copyright (c) 2016 Andrew Shu
+Copyright (c) 2024 Andrew Shu
 
 Thumbnex source code is licensed under the [MIT License](./LICENSE.md).

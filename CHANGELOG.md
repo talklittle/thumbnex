@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.5.0 (2024-01-24)
+
+* Breaking changes
+  * `Thumbnex.create_thumbnail/3` can now return `{:error, error_output}` instead of crashing. Still returns `:ok` on success. ([#15](https://github.com/talklittle/thumbnex/pull/15))
+  * `Thumbnex.animated_gif_thumbnail/3` can return `{:error, {cmd_output, error_status}}` instead of crashing. Still returns `:ok` on success. ([#15](https://github.com/talklittle/thumbnex/pull/15))
+  * `Thumbnex.Animations.duration/1` now returns `{:ok, duration}` or `{:ok, :no_duration}` or `{:error, reason}`. ([#15](https://github.com/talklittle/thumbnex/pull/15))
+  * `Thumbnex.ExtractFrame.single_frame/3` now returns `{:ok, path}` or `{:error, {cmd_output, error_status}}`. ([#15](https://github.com/talklittle/thumbnex/pull/15))
+  * `Thumbnex.ExtractFrame.multiple_frames/4` now returns `{:ok, path}` or `{:error, {cmd_output, error_status}}`. ([#15](https://github.com/talklittle/thumbnex/pull/15))
+  * Require Elixir 1.12.
+
+* Enhancements
+  * Bump dependency versions. ([#16](https://github.com/talklittle/thumbnex/pull/16))
+
+* Bugfixes
+  * Fixed warnings on Elixir 1.16. ([#17](https://github.com/talklittle/thumbnex/pull/17))
+
 ## 0.4.0 (2021-11-16)
 
 * Bump ffmpex dependency to 0.9.0.
